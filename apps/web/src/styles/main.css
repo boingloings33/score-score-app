@@ -1,0 +1,36 @@
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+* {
+  box-sizing: border-box;
+}
+
+@keyframes pan-image {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 800px 1600px;
+  }
+}
+
+.animated {
+  animation: pan-image 60s linear infinite;
+}
+
+@keyframes bounceAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(15px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

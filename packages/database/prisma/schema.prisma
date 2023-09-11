@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+
+  firstName  String? @map("first_name")
+  lastName   String? @map("last_name")
+  profilePic String? @map("profile_pic")
+
+  squadId Int?   @map("squad_id")
+  squad   Squad? @relation(fields: [squadId], references: [id])
+
+  ownedSquads Squad[] @relation("owned_squads")
+
+  created DateTime @default(now())
+  updated DateTime @default(now()) @updatedAt
+
+  refreshToken String? @map("refresh_token")
+
+  players      Player[]
+  createdGames PlayableGame[]
+  squadInvites SquadInvite[]
+
+  @@index([username])
+  @@map("users")
+}
+
+model PlayableGame {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  pointsToWin Int? @map("points_to_win")
+
+  icon Icon
+
+  created     DateTime? @default(now())
+  createdById Int?      @map("created_by")
+  createdBy   User?     @relation(fields: [createdById], references: [id])
+  gamesPlayed Game[]
+
+  @@index([name])
+  @@map("playable_games")
+}
+
+model Game {
+  id Int @id @default(autoincrement())
+
+  gamePlayedId Int          @map("game_played")
+  gamePlayed   PlayableGame @relation(fields: [gamePlayedId], references: [id])
+
+  created   DateTime  @default(now())
+  updated   DateTime  @default(now())
+  completed DateTime?
+
+  players Player[]
+
+  @@index([gamePlayedId])
+  @@map("games")
+}
+
+model Player {
+  id Int @id @default(autoincrement())
+
+  gameId Int  @map("game_id")
+  game   Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  userId Int  @default(1) @map("user_id") // 1 is guest user id
+  user   User @relation(fields: [userId], references: [id])
+
+  score     Int     @default(0)
+  guestName String? @map("guest_name")
+
+  @@index([userId])
+  @@map("players")
+}
+
+model Squad {
+  id Int @id @default(autoincrement())
+
+  name      String  @unique
+  squadLogo String? @map("squad_logo")
+
+  slogan String?
+  bio    String?
+
+  ownerId Int  @map("owner_id")
+  owner   User @relation("owned_squads", fields: [ownerId], references: [id])
+
+  created DateTime @default(now())
+  updated DateTime @default(now())
+
+  members      User[]
+  squadInvites SquadInvite[]
+
+  @@index([name])
+  @@map("squads")
+}
+
+model SquadInvite {
+  id Int @id @default(autoincrement())
+
+  inviteeId Int  @map("invitee_id")
+  invitee   User @relation(fields: [inviteeId], references: [id])
+
+  squadId Int   @map("squad_id")
+  squad   Squad @relation(fields: [squadId], references: [id])
+
+  accepted DateTime?
+  declined DateTime?
+
+  created DateTime @default(now())
+
+  @@index([squadId])
+  @@map("squad_invites")
+}
+
+// ENUMS
+
+enum Icon {
+  PLUS
+  MINUS
+  EQUAL
+  CIRCLE
+  CROWN
+  BAT
+  BASKETBALL
+  EIGHT_BALL
+  BOWLING_BALL
+  BEAN_BAG
+  CUP
+  GOLF_BALL
+  HOCKEY_PUCK
+  PADDLE
+  SOCCER_BALL
+}

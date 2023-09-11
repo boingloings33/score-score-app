@@ -1,0 +1,39 @@
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#A81C20",
+    "titleBar.border": "#f5f3f4",
+    "titleBar.activeForeground": "#FFF",
+
+    "activityBar.background": "#A81C20",
+    "activityBar.activeBorder": "#f7f8f9",
+    "activityBar.activeBackground": "#EE2530",
+    "activityBar.foreground": "#F5F3F4",
+    "activityBarBadge.background": "#f4ab30",
+    "activityBarBadge.foreground": "#A81C20",
+    "activityBar.dropBorder": "#f4ab30"
+  },
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.eslint": true
+  },
+
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "javascript.format.enable": false,
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
